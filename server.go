@@ -28,7 +28,6 @@ func main() {
         reader := bufio.NewReader(os.Stdin)
         red.Print("go-shell> ")
         command, _ := reader.ReadString('\n')
-
         if strings.Compare(command, "exit") == 0 {
             enc_command, err := encrypt(key, command)
             if err != nil {
