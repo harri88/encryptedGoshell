@@ -38,16 +38,16 @@ func main() {
             conn.Close()
             os.Exit(0)
 
-      } else {
-            enc_command, err := encrypt(key, command)
-            if err != nil {
-                fmt.Println(err)
-            }
+        } else {
+              enc_command, err := encrypt(key, command)
+              if err != nil {
+                  fmt.Println(err)
+              }
 
-            conn.Write([]byte(enc_command))
-            enc_output, _ := bufio.NewReader(conn).ReadString('\n')
-            dec_output, err := decrypt(key, string(enc_output))
-            green.Println(string(dec_output))
+              conn.Write([]byte(enc_command))
+              enc_output, _ := bufio.NewReader(conn).ReadString('\n')
+              dec_output, err := decrypt(key, string(enc_output))
+              green.Println(string(dec_output))
     }
   }
 }
