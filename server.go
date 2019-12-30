@@ -41,8 +41,8 @@ func main() {
               enc_output, _ := bufio.NewReader(conn).ReadString('\n')
               dec_output := encryption(false, key, string(enc_output))
               green.Println(string(dec_output))
+        }
     }
-  }
 }
 
 func encryption(encrypt bool, key []byte, message string) (result string) {
