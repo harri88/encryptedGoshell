@@ -59,9 +59,8 @@ func encryption(encrypt bool, key []byte, message string) (result string) {
     // encrypts message if the encrypt bool is true else decrypts
     if encrypt{
         plainText := []byte(message)
-
         block, _ := aes.NewCipher(key)
-
+ 
         cipherText := make([]byte, aes.BlockSize+len(plainText))
         iv := cipherText[:aes.BlockSize]
 
@@ -72,7 +71,6 @@ func encryption(encrypt bool, key []byte, message string) (result string) {
 
     } else {
         cipherText, _ := base64.URLEncoding.DecodeString(message)
-
         block, _ := aes.NewCipher(key)
 
         iv := cipherText[:aes.BlockSize]
