@@ -37,7 +37,6 @@ func main() {
 
         } else {
               enc_command := encryption(true, key, command)
-
               conn.Write([]byte(enc_command))
               enc_output, _ := bufio.NewReader(conn).ReadString('\n')
               dec_output := encryption(false, key, string(enc_output))
@@ -50,7 +49,6 @@ func encryption(encrypt bool, key []byte, message string) (result string) {
     // encrypts message if the encrypt bool is true else decrypts
     if encrypt{
         plainText := []byte(message)
-
         block, err := aes.NewCipher(key)
         if err != nil {
             fmt.Println(err)
@@ -64,7 +62,6 @@ func encryption(encrypt bool, key []byte, message string) (result string) {
 
         stream := cipher.NewCFBEncrypter(block, iv)
         stream.XORKeyStream(cipherText[aes.BlockSize:], plainText)
-
         result = base64.URLEncoding.EncodeToString(cipherText)
 
     } else {
@@ -80,10 +77,8 @@ func encryption(encrypt bool, key []byte, message string) (result string) {
 
         iv := cipherText[:aes.BlockSize]
         cipherText = cipherText[aes.BlockSize:]
-
         stream := cipher.NewCFBDecrypter(block, iv)
         stream.XORKeyStream(cipherText, cipherText)
-
         result = string(cipherText)
     }
     return
